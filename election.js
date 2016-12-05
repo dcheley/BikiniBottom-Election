@@ -14,11 +14,14 @@ $(document).ready(function() {
       var name = responseData.candidates[i].name;
       var votes = responseData.candidates[i].votes;
 
-
       ulItem.append(name + " has " + votes + " votes!");
       ulItem.append("<form class='voteform' method='POST' action='https://bb-election-api.herokuapp.com/vote'><input name='name' type='hidden' value=" + responseData.candidates[i].name + "><input id='submitid' type=\"submit\" value=\"Submit\"> </form><br>")
       $('#candidates').append(ulItem);
     };
   });
+  $('form').on('submit', function() {
+    this.preventDefault();
+    console.log($(this).children('input[type=hidden]').val());
 
+  })
 });
