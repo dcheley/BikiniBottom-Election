@@ -14,12 +14,14 @@ $(document).ready(function() {
       var votes = responseData.candidates[i].votes;
 
       ulItem.append(name + " has " + votes + " votes!");
-      ulItem.append("<form class='voteform' method='POST' action='https://bb-election-api.herokuapp.com/vote'><input name='name' type='hidden' value=" + responseData.candidates[i].name + "><input id='submitid' type=\"submit\" value=\"Submit\"> </form><br>")
+      ulItem.append("<form class='voteform' method='POST' action='https://bb-election-api.herokuapp.com/vote'><input name='name' type='hidden' value=" + name + "><input type='submit' value='submit'> </form><br>");
       $('#candidates').append(ulItem);
     };
+
     $('form').on('submit', function() {
       event.preventDefault();
       console.log($(this).children('input[type=hidden]').val());
+
       $.ajax({
         url: 'https://bb-election-api.herokuapp.com/vote',
         method: 'POST',
@@ -27,7 +29,8 @@ $(document).ready(function() {
           }).fail(function() {
             alert('fail');
           }).done(function(data) {
-            console.log(data);
+              console.log(data);
           });
-      });
+    });
+    });
 });
