@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   $.ajax({
     url: 'https://bb-election-api.herokuapp.com/',
     method: 'GET',
@@ -18,10 +17,17 @@ $(document).ready(function() {
       ulItem.append("<form class='voteform' method='POST' action='https://bb-election-api.herokuapp.com/vote'><input name='name' type='hidden' value=" + responseData.candidates[i].name + "><input id='submitid' type=\"submit\" value=\"Submit\"> </form><br>")
       $('#candidates').append(ulItem);
     };
-  });
-  $('form').on('submit', function() {
-    this.preventDefault();
-    console.log($(this).children('input[type=hidden]').val());
-
-  })
+    $('form').on('submit', function() {
+      event.preventDefault();
+      console.log($(this).children('input[type=hidden]').val());
+      $.ajax({
+        url: 'https://bb-election-api.herokuapp.com/vote',
+        method: 'POST',
+        data: {"name" : $(this).children('input[type=hidden]').val()},
+          }).fail(function() {
+            alert('fail');
+          }).done(function(data) {
+            console.log(data);
+          });
+      });
 });
